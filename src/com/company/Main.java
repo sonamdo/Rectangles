@@ -5,43 +5,34 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
 
         class Rectangle {
-            float[] rectangle = {};
-            float[] vertex1 = new float[2];
-            float[] vertex2 = new float[2];
-            float[] vertex3 = new float[2];
-            float[] vertex4 = new float[2];
+            float[] rectangleCoordinates = {};
+            float[][] vertices = new float[4][];
 
-            Line2D line1 = new Line2D.Float();
-            Line2D line2 = new Line2D.Float();
-            Line2D line3 = new Line2D.Float();
-            Line2D line4 = new Line2D.Float();
-
-            Line2D[] lines = new Line2D[4];
+            Line2D[] lines = new Line2D[4]; // array of arrays?
 
             Rectangle(float[] array) {
-                rectangle = array;
-                float[] vertex1 = {rectangle[0], rectangle[1]};
-                float[] vertex2 = {rectangle[2], rectangle[3]};
-                float[] vertex3 = {rectangle[4], rectangle[5]};
-                float[] vertex4 = {rectangle[6], rectangle[7]};
+                rectangleCoordinates = array;
+                for(int z = 0; z < 8; z = z+2) {
 
-                System.out.println(Float.toString(vertex1[0]));
+                }
+                vertices[0] = new float[]{rectangleCoordinates[0], rectangleCoordinates[1]};
+                vertices[1] = new float[]{rectangleCoordinates[2], rectangleCoordinates[3]};
+                vertices[2] = new float[]{rectangleCoordinates[4], rectangleCoordinates[5]};
+                vertices[3] = new float[]{rectangleCoordinates[6], rectangleCoordinates[7]};
 
                 // using the Java 2D API we create 2 lines with the Line2D class.
                 // change this to for loop, go through all intersections
-                line1 = new Line2D.Float(vertex1[0], vertex1[1], vertex2[0], vertex2[1]);
-                line2 = new Line2D.Float(vertex2[0], vertex2[1], vertex3[0], vertex3[1]);
-                line3 = new Line2D.Float(vertex3[0], vertex3[1], vertex4[0], vertex4[1]);
-                line4 = new Line2D.Float(vertex4[0], vertex4[1], vertex1[0], vertex1[1]);
-
-                Line2D[] lines = {line1, line2, line3, line4};
-                // Line2D line2 = new Line2D.Float(vertex3[0], vertex3[1], vertex4[0], vertex4[1]);
+                lines[0] = new Line2D.Float(vertices[0][0], vertices[0][1], vertices[1][0], vertices[1][1]);
+                lines[1] = new Line2D.Float(vertices[1][0], vertices[1][1], vertices[2][0], vertices[2][1]);
+                lines[2] = new Line2D.Float(vertices[2][0], vertices[2][1], vertices[3][0], vertices[3][1]);
+                lines[3] = new Line2D.Float(vertices[3][0], vertices[3][1], vertices[0][0], vertices[0][1]);
 
             }
 
@@ -49,71 +40,143 @@ public class Main {
             public boolean containmentCheck(Rectangle a, Rectangle b){
                 boolean contained = false;
 
-                if (((a.vertex1[0] > b.vertex1[0]) && (a.vertex1[0] > b.vertex1[0])) &&
-                    ((a.vertex3[0] < b.vertex3[0]) && (a.vertex3[0] < b.vertex3[0])))
+                if ((a.vertices[0][0]<b.vertices[0][0]) && (a.vertices[0][1]<b.vertices[0][1]) &&
+                (a.vertices[2][0]>b.vertices[2][0]) && (a.vertices[2][1]>b.vertices[2][1])){
                     contained = true;
+                }
 
-                if (((a.vertex1[0] > b.vertex1[0]) && (a.vertex1[0] > b.vertex1[0])) &&
-                    ((a.vertex3[0] < b.vertex3[0]) && (a.vertex3[0] < b.vertex3[0])))
-                    contained = true;
                 System.out.println("Contained: " + contained);
                 return contained;
             }
 
             public boolean intersectionCheck(Rectangle a, Rectangle b){
+                ArrayList<float[]> intersections = new ArrayList<>() ;
+                float y = 0;
+                float x = 0;
+                boolean intersectionFound = false;
 
-                // check all lines in rectangle a to see if they intersect with all lines in rectangle b
+                // check all lines(z) in rectangle a to see if they intersect with all lines(e) in rectangle b
                 for(int z = 0; z < 4; z = z+1) {
                     for (int e = 0; e < 4; e = e+1){
-                        if(a.lines[z].intersectsLine(b.lines[e])){
+                        if(a.lines[z].intersectsLine(b.lines[e])) {
 
-//                            System.out.println("Intersection at " + result);
-                        }
-                    }
-                }
-                // check for intersections between the 2 lines
-                // CAVEAT: also show true when lines connect, not intersect
-                boolean result = line2.intersectsLine(line1); // COMPARE ALL LINES FROM RECT A TO RECT B!
-                // once intersectsLine =true, check x and y values of vertexes for match.
-                System.out.println("Intersection: " + result);
-                return result;
-            }
-
-            public boolean adjacencyCheck(Rectangle a, Rectangle b){
-                boolean adjacent = false;
-
-                // First loop check for matching X axis. No need to check for y as all intersections will connect on both x and y
-                for(int x = 0; x < 8; x = x+2) {
-                    for(int y = 0; y < 8; y = y+2){
-                        if (a.rectangle[x] == b.rectangle[y]) {
-//                            System.out.println("match");
-
-                            if(a.vertex1[0] == b.vertex1[0]){
-                                System.out.println(b.vertex1[0]);
+                            //at 3 we have to loop back to the first vertex
+                            if (z == 3) {
+                                if (a.vertices[z][0] == a.vertices[0][0]) {
+                                    x = (a.vertices[z][0]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks x axis for match
+                                if (a.vertices[z][1] == a.vertices[0][1]) {
+                                    y = (a.vertices[z][1]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks y axis for match
+                            } else {
+                                if (a.vertices[z][0] == a.vertices[z + 1][0]) {
+                                    x = (a.vertices[z][0]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks x axis for match
+                                if (a.vertices[z][1] == a.vertices[z + 1][1]) {
+                                    y = (a.vertices[z][1]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks y axis for match
                             }
 
-                            if (
-                                a.line1.contains(a.rectangle[x]+1, b.rectangle[y]) ||
-                                a.line1.contains(a.rectangle[x]-1, b.rectangle[y]) ||
-                                a.line1.contains(a.rectangle[x+1]+1, b.rectangle[y]) ||
-                                a.line1.contains(a.rectangle[x+1]-1, b.rectangle[y])
-                            ) adjacent = true;
-                            // proper, sub-line, partial
+//                             check line 2 vertices
+                            if (e == 3) {
+                                if (b.vertices[e][0] == b.vertices[0][0]) {
+                                    x = (b.vertices[e][0]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks x axis for match
+                                if (b.vertices[e][1] == b.vertices[0][1]) {
+                                    y = (b.vertices[e][1]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks y axis for match
+                            } else {
+                                if (b.vertices[e][0] == b.vertices[e + 1][0]) {
+                                    x = (b.vertices[e][0]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks x axis for match
+                                if (b.vertices[e][1] == b.vertices[e + 1][1]) {
+                                    y = (b.vertices[e][1]);
+                                    intersectionFound = true;
+                                }
+                                ; // checks y axis for match
+                            }
+
+                            //add intersection points to array
+                            if (intersectionFound) {
+                                float[] coordinates = {x,y};
+                                intersections.add(coordinates);
+                                intersectionFound = false;
+                            }
                         }
                     }
-
                 }
-                System.out.println("adjacent: " + adjacent);
-                return adjacent;
+//                System.out.println("Intersections: " + intersections.get(0)[0]);
+
+
+                // proper, sub-line, partial, non-adjacent
+                // proper : 2 vertices will line up with intersections, but not further
+                // sub-line : will not match vertices, and wont extend beyond vertices
+                // partial : one side will extend beyond vertice
+                // non-adjacent: easy, intersections.size() < 1
+
+                for(var i = 0; i<intersections.size(); i = i+1){
+                    System.out.println("hi");
+                }
+
+                return true;
             }
+
+//            public boolean adjacencyCheck(Rectangle a, Rectangle b){
+//                boolean adjacent = false;
+//
+//                // First loop check for matching X axis. No need to check for y as all intersections will connect on both x and y
+//                for(int x = 0; x < 8; x = x+2) {
+//                    for(int y = 0; y < 8; y = y+2){
+//                        if (a.rectangleCoordinates[x] == b.rectangleCoordinates[y]) {
+////                            System.out.println("match");
+//
+//                            if(a.vertex1[0] == b.vertex1[0]){
+//                                System.out.println(b.vertex1[0]);
+//                            }
+//
+//                            if (
+//                                a.line1.contains(a.rectangleCoordinates[x]+1, b.rectangleCoordinates[y]) ||
+//                                a.line1.contains(a.rectangleCoordinates[x]-1, b.rectangleCoordinates[y]) ||
+//                                a.line1.contains(a.rectangleCoordinates[x+1]+1, b.rectangleCoordinates[y]) ||
+//                                a.line1.contains(a.rectangleCoordinates[x+1]-1, b.rectangleCoordinates[y])
+//                            ) adjacent = true;
+//                            // proper, sub-line, partial
+//                        }
+//                    }
+//
+//                }
+//                System.out.println("adjacent: " + adjacent);
+//                return adjacent;
+//            }
+
+
 
         }
 
+    // intersection test data
+        Rectangle rectangle1 = new Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
+        Rectangle rectangle2 = new Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
 
-        Rectangle rectangle1 = new Rectangle(new float[]{0, 0, 0, 4, 4, 4, 4, 0});
-        Rectangle rectangle2 = new Rectangle(new float[]{0, 12, 13, 14, 15, 16, 17, 18});
-        rectangle1.containmentCheck(rectangle1, rectangle2);
-        rectangle1.adjacencyCheck(rectangle1, rectangle2);
+        Rectangle rectangle3 = new Rectangle(new float[]{12, 1, 15, 1, 15, 4, 12, 4});
+        Rectangle rectangle4 = new Rectangle(new float[]{13, 2, 14, 2, 14, 3, 13, 3});
+
+        rectangle1.intersectionCheck(rectangle1, rectangle2);
+//        rectangle1.containmentCheck(rectangle3, rectangle4);
+//        rectangle1.adjacencyCheck(rectangle1, rectangle2);
 
     }
 
