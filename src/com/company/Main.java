@@ -11,7 +11,18 @@ public class Main {
 
     public static void main(String[] args) {
 
-        class Rectangle {
+        Rectangle rectangle1 = new Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
+        Rectangle rectangle2 = new Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
+
+//        Rectangle rectangle3 = new Rectangle(new float[]{12, 1, 15, 1, 15, 4, 12, 4});
+//        Rectangle rectangle4 = new Rectangle(new float[]{13, 2, 14, 2, 14, 3, 13, 3});
+
+        rectangle1.intersectionCheck(rectangle1, rectangle2);
+//      rectangle1.containmentCheck(rectangle3, rectangle4);
+//       rectangle1.adjacencyCheck(rectangle1, rectangle2);
+    }
+
+        public static class Rectangle {
             float[] rectangleCoordinates = {};
             float[][] vertices = new float[4][];
 
@@ -119,8 +130,6 @@ public class Main {
                         }
                     }
                 }
-//                System.out.println("Intersections: " + intersections.get(0)[0]);
-
 
                 // proper, sub-line, partial, non-adjacent
                 // proper : 2 vertices will line up with intersections, but not further
@@ -135,49 +144,8 @@ public class Main {
                 return true;
             }
 
-//            public boolean adjacencyCheck(Rectangle a, Rectangle b){
-//                boolean adjacent = false;
-//
-//                // First loop check for matching X axis. No need to check for y as all intersections will connect on both x and y
-//                for(int x = 0; x < 8; x = x+2) {
-//                    for(int y = 0; y < 8; y = y+2){
-//                        if (a.rectangleCoordinates[x] == b.rectangleCoordinates[y]) {
-////                            System.out.println("match");
-//
-//                            if(a.vertex1[0] == b.vertex1[0]){
-//                                System.out.println(b.vertex1[0]);
-//                            }
-//
-//                            if (
-//                                a.line1.contains(a.rectangleCoordinates[x]+1, b.rectangleCoordinates[y]) ||
-//                                a.line1.contains(a.rectangleCoordinates[x]-1, b.rectangleCoordinates[y]) ||
-//                                a.line1.contains(a.rectangleCoordinates[x+1]+1, b.rectangleCoordinates[y]) ||
-//                                a.line1.contains(a.rectangleCoordinates[x+1]-1, b.rectangleCoordinates[y])
-//                            ) adjacent = true;
-//                            // proper, sub-line, partial
-//                        }
-//                    }
-//
-//                }
-//                System.out.println("adjacent: " + adjacent);
-//                return adjacent;
-//            }
-
-
-
         }
-
-    // intersection test data
-        Rectangle rectangle1 = new Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
-        Rectangle rectangle2 = new Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
-
-        Rectangle rectangle3 = new Rectangle(new float[]{12, 1, 15, 1, 15, 4, 12, 4});
-        Rectangle rectangle4 = new Rectangle(new float[]{13, 2, 14, 2, 14, 3, 13, 3});
-
-        rectangle1.intersectionCheck(rectangle1, rectangle2);
-//        rectangle1.containmentCheck(rectangle3, rectangle4);
-//        rectangle1.adjacencyCheck(rectangle1, rectangle2);
 
     }
 
-}
+
