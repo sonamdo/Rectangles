@@ -27,8 +27,8 @@ class MainTest {
     Main.Rectangle rectangle10 = new Main.Rectangle(new float[]{-13, -2, -14, -2, -14, -3, -13, -3});
 
     //rectangles adjacent proper
-    Main.Rectangle rectangle11 = new Main.Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
-    Main.Rectangle rectangle12 = new Main.Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
+    Main.Rectangle rectangle11 = new Main.Rectangle(new float[]{2, 1, 4, 1, 4, 3, 2, 3});
+    Main.Rectangle rectangle12 = new Main.Rectangle(new float[]{2, 3, 4, 3, 4, 5, 2, 5});
 
     //rectangles adjacent sub-line
     Main.Rectangle rectangle13 = new Main.Rectangle(new float[]{16, 1, 17, 1, 17, 4, 16, 4});
@@ -37,12 +37,6 @@ class MainTest {
     //rectangles adjacent partial
     Main.Rectangle rectangle15 = new Main.Rectangle(new float[]{7, 8, 10, 8, 10, 9, 7, 9});
     Main.Rectangle rectangle16 = new Main.Rectangle(new float[]{8, 9, 12, 9, 12, 10, 8, 10});
-
-
-    @Test
-    void createRectangle(){
-
-    }
 
     @Test
     void containmentCheckTest(){
@@ -55,8 +49,16 @@ class MainTest {
     }
 
     @Test
-    void adjacencyCheck(){
+    void intersectionCheck(){
+        assertEquals("No intersections found", rectangle5.intersectionCheck(rectangle5, rectangle6));
+        assertEquals("Intersections found at:", rectangle1.intersectionCheck(rectangle1, rectangle2));
+    }
 
+    @Test
+    void adjacencyCheck(){
+        assertEquals("Adjacent rectangles. Type: Proper", rectangle11.intersectionCheck(rectangle11, rectangle12));
+        assertEquals("Adjacent rectangles. Type: Sub-line", rectangle13.intersectionCheck(rectangle13, rectangle14));
+        assertEquals("Adjacent rectangles. Type: Partial", rectangle15.intersectionCheck(rectangle15, rectangle16));
     }
 
 }

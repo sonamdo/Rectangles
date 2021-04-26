@@ -1,5 +1,6 @@
 package com.company;
 
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -71,7 +72,8 @@ public class Main {
                 return contained;
             }
 
-            public boolean intersectionCheck(Rectangle a, Rectangle b){
+            public String intersectionCheck(Rectangle a, Rectangle b){
+                String result = "Test";
                 ArrayList<float[]> intersections = new ArrayList<>() ;
                 float y = 0;
                 float x = 0;
@@ -162,12 +164,10 @@ public class Main {
                     if(adjacencyOnX == true){
                         for (int e = 0; e < 4; e = e+1){
                             if(a.vertices[e][0] == adjacencyAxis){
-                                System.out.println(a.vertices[e][1]);
                                 rectangleValuesA[countA] = a.vertices[e][1];
                                 countA++;
                             }
                             if(b.vertices[e][0] == adjacencyAxis){
-                                System.out.println(b.vertices[e][1]);
                                 rectangleValuesA[countB] = b.vertices[e][1];
                                 countB++;
                             }
@@ -177,12 +177,10 @@ public class Main {
                     if(adjacencyOnX == false){
                         for (int e = 0; e < 4; e = e+1){
                             if(a.vertices[e][1] == adjacencyAxis){
-//                                System.out.println(a.vertices[e][0]);
                                 rectangleValuesA[countA] = a.vertices[e][0];
                                 countA++;
                             }
                             if(b.vertices[e][1] == adjacencyAxis){
-//                                System.out.println(b.vertices[e][0]);
                                 rectangleValuesB[countB] = b.vertices[e][0];
                                 countB++;
                             }
@@ -207,43 +205,36 @@ public class Main {
                         maxB = rectangleValuesB[0];
                     }
 
-//                    System.out.println("Min A: " + minA + "Max A: " +maxA + "MinB: " +minB + "MaxB: " + maxB);
-
                     // series of if statements detect what type of adjacency the rectangles have
                     if(((minA < minB) && (maxA > maxB)) ||
                         ((minA > minB) && (maxA < maxB))
                     ){
-                        System.out.println("Adjacent rectangles. Type: Sub-line");
+                        result = "Adjacent rectangles. Type: Sub-line";
                     }
 
                     if((minA == minB) && (maxA == maxB)){
-                        System.out.println("Adjacent rectangles. Type: Proper");
+                        result = "Adjacent rectangles. Type: Proper";
                     }
 
                     if(((minA < minB) && (maxA < minB) && (maxA > minB)) ||
                         ((minA > minB) && (maxA > minB) && (maxA < minB)))
                     {
-                        System.out.println("Adjacent rectangles. Type: Partial");
-                    }
-
-                    if (adjacencyOnX){
-                        System.out.println("Rectangles adjacent on X axis: " + adjacencyAxis);
-                    } else {
-                        System.out.println("Rectangles adjacent on Y axis " + adjacencyAxis);
+                        result = "Adjacent rectangles. Type: Partial";
                     }
 
                 } else if (intersections.size() > 0) {
                     {
-                        System.out.println("Intersections found at:");
+                        result = "Intersections found at:";
                         for (var i = 0; i < intersections.size(); i = i + 1) {
-                            System.out.println(" " + intersections.get(i)[0] + ", " + intersections.get(i)[1]);
+                            result += ("\n" + intersections.get(i)[0] + ", " + intersections.get(i)[1]);
                         }
                     }
                 } else {
-                    System.out.println("No intersections found");
+                    result = "No intersections found";
                 }
 
-                return true;
+                System.out.println(result);
+                return result;
             }
 
         }
