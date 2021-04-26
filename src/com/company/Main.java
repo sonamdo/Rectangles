@@ -1,45 +1,56 @@
 package com.company;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Line2D;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
+        //Ask for user input through command line
+        Scanner userInput = new Scanner(System.in);
 
-        Rectangle rectangle1 = new Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
-        Rectangle rectangle2 = new Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
+        System.out.println("To create a rectangle, we need the X and Y axes of it's 4 vertices. Please enter these 8 values in order with spaces inbetween each number. Like so: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
+        String firstRectangle = userInput.nextLine();
 
-//        Rectangle rectangle3 = new Rectangle(new float[]{12, 1, 15, 1, 15, 4, 12, 4});
-//        Rectangle rectangle4 = new Rectangle(new float[]{13, 2, 14, 2, 14, 3, 13, 3});
+        System.out.println("Now do the same for the second rectangles values. Remember: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
+        String secondRectangle = userInput.nextLine();
+
+        String[] firstRectangleArray = firstRectangle.split("\\s+");
+        String[] secondRectangleArray = secondRectangle.split("\\s+");
+
+        float[] rectangleOne = new float[8];
+        float[] rectangleTwo = new float[8];
+
+        // converts rectangle dimensions from string to array
+        for(int z = 0; z < 8; z = z+1) {
+            rectangleOne[z] = Float.parseFloat(firstRectangleArray[z]);
+            rectangleTwo[z] = Float.parseFloat(secondRectangleArray[z]);
+        }
+
+        // creates 2 rectangle classes based on input
+        Rectangle rectangle1 = new Rectangle(rectangleOne);
+        Rectangle rectangle2 = new Rectangle(rectangleTwo);
 
         rectangle1.intersectionCheck(rectangle1, rectangle2);
-//      rectangle1.containmentCheck(rectangle3, rectangle4);
-//       rectangle1.adjacencyCheck(rectangle1, rectangle2);
+        rectangle1.containmentCheck(rectangle1, rectangle2);
+
     }
 
         public static class Rectangle {
-            float[] rectangleCoordinates = {};
+            float[] rectangleCoordinates;
             float[][] vertices = new float[4][];
 
-            Line2D[] lines = new Line2D[4]; // array of arrays?
+            Line2D[] lines = new Line2D[4];
 
             Rectangle(float[] array) {
                 rectangleCoordinates = array;
-                for(int z = 0; z < 8; z = z+2) {
-
-                }
                 vertices[0] = new float[]{rectangleCoordinates[0], rectangleCoordinates[1]};
                 vertices[1] = new float[]{rectangleCoordinates[2], rectangleCoordinates[3]};
                 vertices[2] = new float[]{rectangleCoordinates[4], rectangleCoordinates[5]};
                 vertices[3] = new float[]{rectangleCoordinates[6], rectangleCoordinates[7]};
 
-                // using the Java 2D API we create 2 lines with the Line2D class.
-                // change this to for loop, go through all intersections
+                // using the Java 2D API we create lines for each side of the rectangle with Line2D class.
                 lines[0] = new Line2D.Float(vertices[0][0], vertices[0][1], vertices[1][0], vertices[1][1]);
                 lines[1] = new Line2D.Float(vertices[1][0], vertices[1][1], vertices[2][0], vertices[2][1]);
                 lines[2] = new Line2D.Float(vertices[2][0], vertices[2][1], vertices[3][0], vertices[3][1]);
@@ -131,14 +142,105 @@ public class Main {
                     }
                 }
 
-                // proper, sub-line, partial, non-adjacent
-                // proper : 2 vertices will line up with intersections, but not further
-                // sub-line : will not match vertices, and wont extend beyond vertices
-                // partial : one side will extend beyond vertice
-                // non-adjacent: easy, intersections.size() < 1
+                if (intersections.size()>2){
 
-                for(var i = 0; i<intersections.size(); i = i+1){
-                    System.out.println("hi");
+                    boolean adjacencyOnX = false;
+                    float adjacencyAxis = 0;
+
+                    // compare x axis of first and last intersection points. If true then rectangles are adjacent on x axis. If false then it must be y axis
+                    if (intersections.get(0)[0] == intersections.get(intersections.size()-1)[0]){
+                        adjacencyOnX = true;
+                        adjacencyAxis = intersections.get(0)[0];
+                    } else {adjacencyAxis = intersections.get(0)[1];}
+
+                    float[] rectangleValuesA = new float[2];
+                    float[] rectangleValuesB = new float[2];
+                    int countA = 0;
+                    int countB = 0;
+
+                    // check rectangles vertices along adjacency axis and get their values. This will give us two line segments we can compare for type of overlapping
+                    if(adjacencyOnX == true){
+                        for (int e = 0; e < 4; e = e+1){
+                            if(a.vertices[e][0] == adjacencyAxis){
+                                System.out.println(a.vertices[e][1]);
+                                rectangleValuesA[countA] = a.vertices[e][1];
+                                countA++;
+                            }
+                            if(b.vertices[e][0] == adjacencyAxis){
+                                System.out.println(b.vertices[e][1]);
+                                rectangleValuesA[countB] = b.vertices[e][1];
+                                countB++;
+                            }
+                        }
+                    }
+
+                    if(adjacencyOnX == false){
+                        for (int e = 0; e < 4; e = e+1){
+                            if(a.vertices[e][1] == adjacencyAxis){
+//                                System.out.println(a.vertices[e][0]);
+                                rectangleValuesA[countA] = a.vertices[e][0];
+                                countA++;
+                            }
+                            if(b.vertices[e][1] == adjacencyAxis){
+//                                System.out.println(b.vertices[e][0]);
+                                rectangleValuesB[countB] = b.vertices[e][0];
+                                countB++;
+                            }
+                        }
+                    }
+
+                    // set the min and max values of line segments for comparison
+                    float minA, maxA, minB, maxB;
+                    if(rectangleValuesA[0]<rectangleValuesA[1]){
+                        minA = rectangleValuesA[0];
+                        maxA = rectangleValuesA[1];
+                    } else {
+                        minA = rectangleValuesA[1];
+                        maxA = rectangleValuesA[0];
+                    }
+
+                    if(rectangleValuesB[0]<rectangleValuesB[1]){
+                        minB = rectangleValuesB[0];
+                        maxB = rectangleValuesB[1];
+                    } else {
+                        minB = rectangleValuesB[1];
+                        maxB = rectangleValuesB[0];
+                    }
+
+//                    System.out.println("Min A: " + minA + "Max A: " +maxA + "MinB: " +minB + "MaxB: " + maxB);
+
+                    // series of if statements detect what type of adjacency the rectangles have
+                    if(((minA < minB) && (maxA > maxB)) ||
+                        ((minA > minB) && (maxA < maxB))
+                    ){
+                        System.out.println("Adjacent rectangles. Type: Sub-line");
+                    }
+
+                    if((minA == minB) && (maxA == maxB)){
+                        System.out.println("Adjacent rectangles. Type: Proper");
+                    }
+
+                    if(((minA < minB) && (maxA < minB) && (maxA > minB)) ||
+                        ((minA > minB) && (maxA > minB) && (maxA < minB)))
+                    {
+                        System.out.println("Adjacent rectangles. Type: Partial");
+                    }
+
+                    if (adjacencyOnX){
+                        System.out.println("Rectangles adjacent on X axis: " + adjacencyAxis);
+                    } else {
+                        System.out.println("Rectangles adjacent on Y axis " + adjacencyAxis);
+                    }
+
+                } else if (intersections.size() > 0) {
+                    {
+                        System.out.println("Intersections found at:");
+                        for (var i = 0; i < intersections.size(); i = i + 1) {
+                            System.out.println(" " + intersections.get(i)[0] + ", " + intersections.get(i)[1]);
+                        }
+                    }
+                } else {
+                    System.out.println("No intersections found");
                 }
 
                 return true;

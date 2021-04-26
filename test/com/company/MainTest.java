@@ -26,6 +26,19 @@ class MainTest {
     Main.Rectangle rectangle9 = new Main.Rectangle(new float[]{-12, -1, -15, -1, -15, -4, -12, -4});
     Main.Rectangle rectangle10 = new Main.Rectangle(new float[]{-13, -2, -14, -2, -14, -3, -13, -3});
 
+    //rectangles adjacent proper
+    Main.Rectangle rectangle11 = new Main.Rectangle(new float[]{6, 3, 9, 3, 9, 5, 6, 5});
+    Main.Rectangle rectangle12 = new Main.Rectangle(new float[]{8, 4, 11, 4, 11, 7, 8, 7});
+
+    //rectangles adjacent sub-line
+    Main.Rectangle rectangle13 = new Main.Rectangle(new float[]{16, 1, 17, 1, 17, 4, 16, 4});
+    Main.Rectangle rectangle14 = new Main.Rectangle(new float[]{17, 2, 18, 2, 18, 3, 17, 3});
+
+    //rectangles adjacent partial
+    Main.Rectangle rectangle15 = new Main.Rectangle(new float[]{7, 8, 10, 8, 10, 9, 7, 9});
+    Main.Rectangle rectangle16 = new Main.Rectangle(new float[]{8, 9, 12, 9, 12, 10, 8, 10});
+
+
     @Test
     void createRectangle(){
 
@@ -39,6 +52,11 @@ class MainTest {
         assertFalse(rectangle5.containmentCheck(rectangle5, rectangle6));
         assertFalse(rectangle7.containmentCheck(rectangle7, rectangle8));
         assertFalse(rectangle9.containmentCheck(rectangle9, rectangle10));
+    }
+
+    @Test
+    void adjacencyCheck(){
+
     }
 
 }
