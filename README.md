@@ -5,7 +5,7 @@ Java application that takes two rectangles and checks their relation to each oth
 2. **Containment**: Does either rectangle fully contain the other
 3. **Adjacency**: Do the rectangles share a side and is it proper, sub-line, or partial.
 
-Upon running the application you will be prompted for the X and Y vertice points for the first rectangle. Afterwards you will be asked to input the same values for the second rectangle.
+Upon running the application you will be prompted for the X and Y vertice points for the first rectangle. Input will be 8 numbers in string format with a single space between each digit. Afterwards you will be asked to input the same values for the second rectangle.
 
 **Input format**: X1 Y1 X2 Y2 X3 Y3 X4 Y4, submit then repeat the second rectangle. 
 
