@@ -1,17 +1,17 @@
 package com.company;
 
-import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class Main{
 
     public static void main(String... args) {
+
         //Ask for user input through command line
         Scanner userInput = new Scanner(System.in);
 
-        System.out.println("To create a rectangle, we need the X and Y axes of it's 4 vertices. Please enter these 8 values in order with spaces inbetween each number. Like so: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
+        System.out.println("To create a rectangle, we need the X and Y axes of it's 4 vertices. Please enter these 8 values in order with spaces inbetween each number. Format: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
         String firstRectangle = userInput.nextLine();
 
         System.out.println("Now do the same for the second rectangles values. Remember: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
@@ -68,7 +68,7 @@ public class Main {
                     contained = true;
                 }
 
-                System.out.println("Contained: " + contained);
+                System.out.println("Rectangle contains other rectangle: " + contained);
                 return contained;
             }
 
@@ -144,6 +144,7 @@ public class Main {
                     }
                 }
 
+                // More then 2 intersection points means the rectangles are adjacent
                 if (intersections.size()>2){
 
                     boolean adjacencyOnX = false;
@@ -168,7 +169,7 @@ public class Main {
                                 countA++;
                             }
                             if(b.vertices[e][0] == adjacencyAxis){
-                                rectangleValuesA[countB] = b.vertices[e][1];
+                                rectangleValuesB[countB] = b.vertices[e][1];
                                 countB++;
                             }
                         }
@@ -186,6 +187,7 @@ public class Main {
                             }
                         }
                     }
+
 
                     // set the min and max values of line segments for comparison
                     float minA, maxA, minB, maxB;
@@ -216,8 +218,8 @@ public class Main {
                         result = "Adjacent rectangles. Type: Proper";
                     }
 
-                    if(((minA < minB) && (maxA < minB) && (maxA > minB)) ||
-                        ((minA > minB) && (maxA > minB) && (maxA < minB)))
+                    if(((minA < minB) && (maxA > minB) && (maxA > minB)) ||
+                        ((minA > minB) && (maxA < minB) && (maxA < minB)))
                     {
                         result = "Adjacent rectangles. Type: Partial";
                     }
