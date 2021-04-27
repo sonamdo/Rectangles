@@ -5,7 +5,7 @@ Java application that takes two rectangles and checks their relation to each oth
 2. **Containment**: Does either rectangle fully contain the other
 3. **Adjacency**: Do the rectangles share a side and is it proper, sub-line, or partial.
 
-To run file navigate to src/com/company in command line and run with ```java Main.java```. Unit testing can be run in IDE of your choice after junit to classpath. Located in folder test/com/company under MainTest.java.
+The easiest way to get the app is to download the **Rectangles.jar** file and run it with ```java -jar Rectangles.jar```. Alternatively you can clone the repo, then navigate to src/com/company in command line and run with ```java Main.java```. Unit testing can be run in IDE of your choice after junit to classpath. Located in folder test/com/company under MainTest.java.
 
 Upon running the application you will be prompted for the X and Y vertice points for the first rectangle. Input will be 8 numbers in string format with a single space between each digit. Afterwards you will be asked to input the same values for the second rectangle.
 
