@@ -11,7 +11,7 @@ public class Main{
         //Ask for user input through command line
         Scanner userInput = new Scanner(System.in);
 
-        System.out.println("To create a rectangle, we need the X and Y axes of it's 4 vertices. Please enter these 8 values in order with spaces inbetween each number. Format: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
+        System.out.println("To create a rectangle, we need the X and Y axes of it's 4 vertices. Please enter these 8 values in order with spaces inbetween each number. : X1 Y1 X2 Y2 X3 Y3 X4 Y4");
         String firstRectangle = userInput.nextLine();
 
         System.out.println("Now do the same for the second rectangles values. Remember: X1 Y1 X2 Y2 X3 Y3 X4 Y4");
