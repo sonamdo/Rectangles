@@ -15,3 +15,11 @@ Once the values have been received, the app will output one of the below:
 - If the rectangles are adjacent and the type
 - Whether or not they are contained
 - Do they intersect, and at what points
+
+___
+
+Java 2D API used for drawing lines and checking intersections.
+
+Junit used for unit testing.
+
+In development: will use Java 2D for graphical representation of two rectangles
