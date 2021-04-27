@@ -7,7 +7,12 @@ Java application that takes two rectangles and checks their relation to each oth
 
 ## Get app running
 
-The easiest way to get the app is to download the **Rectangles.jar** file and run it with ```java -jar Rectangles.jar```. Alternatively you can clone the repo, then navigate to src/com/company in command line and run with ```java Main.java```. Unit testing can be run in IDE of your choice after junit to classpath. Located in folder test/com/company under MainTest.java.
+The easiest way to get the app is to download the **Rectangles.jar** file and run it with 
+```java -jar Rectangles.jar``` 
+
+Alternatively you can clone the repo, then navigate to src/com/company in command line and run with 
+```java Main.java```
+Unit testing can be run in IDE of your choice after junit to classpath. Located in folder test/com/company under MainTest.java.
 
 ## Instructions
 
